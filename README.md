@@ -1,4 +1,4 @@
-# Readme
+# Duke ECE590-22/23 Algorithm
 
 This repository is created by Yifan Men and Yuqiao Liang.
 
