@@ -15,6 +15,6 @@ Algorithms below are included:
 Usage:
 
 ```Shell
->>> import sort
->>> code.testingSuite('SelectionSort')
+>>> import project1
+>>> project1.testingSuite('SelectionSort')
 ```
