@@ -3,8 +3,8 @@ Math 590
 Project 1
 Fall 2018
 
-Partner 1:Yuqiao Liang
-Partner 2:Yifan Men
+Partner 1: Yuqiao Liang
+Partner 2: Yifan Men
 Date:
 """
 
@@ -19,7 +19,7 @@ import numpy
 SelectionSort
 """
 def SelectionSort(A):
-    # the input if a random array and the teturn value is a sorted array
+    # the input if a random array and the return value is a sorted array
     # i indicates the length of sorted array
     for i in range(len(A)):
         tmp = i # store the index of the minimum value in unsorted array
@@ -29,9 +29,7 @@ def SelectionSort(A):
             if A[j] < A[tmp]:
                 tmp = j # found a smaller value in unsorted array
         # swap two values
-        mn_val = A[tmp]
-        A[tmp] = A[i]
-        A[i] = mn_val
+        A[tmp], A[i] = A[i], A[tmp]
 
     # finished sorting
     return A
@@ -58,7 +56,7 @@ def InsertionSort(A):
 """
 BubbleSort
 """
-def BubbleSort(A): # ??
+def BubbleSort(A): 
     # we have len(A) bubbles to be risen
     #iterate the array in outer loop
     for i in range(len(A)):
