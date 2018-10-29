@@ -3,10 +3,11 @@ Math 590
 Project 1
 Fall 2018
 
-Partner 1: Yuqiao Liang
-Partner 2: Yifan Men
-Date: 10/26/2018
+Partner 1:Yuqiao Liang
+Partner 2:Yifan Men
+Date:
 """
+
 # Import time, random, plotting, stats, and numpy.
 import time
 import random
@@ -33,18 +34,64 @@ def SelectionSort(A):
 InsertionSort
 """
 def InsertionSort(A):
+    len_a = len(A)
+    for k in range(len_a):
+        tmp = A[k]
+        for i in range(k - 1, -1, -1):
+            if tmp < A[i]:
+                A[i + 1] = A[i]
+                A[i] = tmp
+            else:
+                break
     return A
 
 """
 BubbleSort
 """
 def BubbleSort(A):
+    len_a = len(A)
+    for i in range(len_a):
+        for j in range(len_a - i - 1):
+            if A[j] > A[j + 1]:
+                tmp = A[j]
+                A[j] = A[j + 1]
+                A[j + 1] = tmp
     return A
 
 """
 MergeSort
 """
 def MergeSort(A):
+    if len(A) == 1:
+        return A
+
+    mid = len(A) // 2
+    B = A[:mid]
+    C = A[mid:]
+
+    B = MergeSort(B)
+    C = MergeSort(C)
+
+    rt = [0]*len(A)
+
+    p = 0
+    q = 0
+    i = 0
+
+    while p <= len(B) and q <= len(C) and i < len(A):
+        if p == len(B):
+            A[i] = C[q]
+            q = q + 1
+        elif q == len(C):
+            A[i] = B[p]
+            p = p + 1
+        elif B[p] > C[q]:
+            A[i] = C[q]
+            q = q + 1
+        else:
+            A[i] = B[p]
+            p = p + 1
+        i = i + 1
     return A
 
 """
@@ -53,6 +100,20 @@ QuickSort
 Sort a list A with the call QuickSort(A, 0, len(A)).
 """
 def QuickSort(A, i, j):
+    if i >= j - 1:
+        return
+
+    pivot = A[j - 1]
+
+    left = i - 1
+    for right in range(i, j - 1):
+        if A[right] <= pivot:
+            left = left + 1
+            A[left], A[right] = A[right], A[left]
+    A[left + 1], A[j - 1] = A[j - 1], A[left +1]
+
+    QuickSort(A, i, left + 1)
+    QuickSort(A, left + 2, j)
     return A
 
 """
@@ -73,7 +134,7 @@ returns true or false
 def isSorted(unA, sA):
     # Copy the unsorted list.
     temp = unA.copy()
-    
+
     # Use python's sort.
     temp.sort()
 
@@ -111,7 +172,7 @@ def testingSuite(alg):
     # Make sure the input is a proper alg to consider.
     if not alg in algs:
         raise Exception('Not an allowed algorithm. Value was: {}'.format(alg))
-    
+
     # Create a list to store all the tests.
     tests = []
 
@@ -169,7 +230,7 @@ def testingSuite(alg):
             # Do the sort.
             eval('%s(tests[tInd])' % alg) if alg != 'QuickSort' \
             else eval('%s(tests[tInd],0,len(tests[tInd]))' % alg)
-            
+
             # Check if the test succeeded.
             if isSorted(temp, tests[tInd]):
                 print('Test %d Success: %s' % (tInd+1, message[tInd]))
@@ -219,7 +280,7 @@ def measureTime(sortedFlag = False, numTrials = 30):
     print('')
     print('Averaging over %d Trials' % numTrials)
     print('')
-    
+
     # First, we seed the random number generator to ensure consistency.
     random.seed(1)
 
@@ -255,10 +316,10 @@ def measureTime(sortedFlag = False, numTrials = 30):
     for nInd in range(0,len(N)):
         # Get the current value of n to consider.
         n = N[nInd]
-        
+
         # Reset the running sum of the runtimes.
         timing = [0,0,0,0,0,0]
-        
+
         # Loop over the 30 tests.
         for test in range(1,numTrials+1):
             # Create the random list of size n to sort.
@@ -276,7 +337,7 @@ def measureTime(sortedFlag = False, numTrials = 30):
 
                 # Copy the original list for sorting.
                 B = A.copy()
-                
+
                 # Time the sort.
                 t = time.time()
                 eval('%s(B)' % alg) if aI!=4 else eval('%s(B,0,len(B))' % alg)
@@ -403,4 +464,3 @@ def measureTime(sortedFlag = False, numTrials = 30):
 
     # Close all figures.
     plt.close('all')
-    
