@@ -58,11 +58,8 @@ BubbleSort
 """
 def BubbleSort(A): # ??
     # we have len(A) bubbles to be risen
-    #iterate the array in outer loop
     for i in range(len(A)):
-        # iterate the array of the remaining element
         for j in range(len(A) - i - 1):
-            #if two elements are in wrong order, simply swap them
             if A[j] > A[j + 1]:
                 A[j], A[j + 1] = A[j + 1], A[j]
     return A
