@@ -19,26 +19,34 @@ import numpy
 SelectionSort
 """
 def SelectionSort(A):
-    len_a = len(A)
-    for i in range(len_a):
-        tmp = i
-        for j in range(i + 1, len_a):
+    # i indicates the length of sorted array
+    for i in range(len(A)):
+        tmp = i # store the index of the minimum value in unsorted array
+
+        # iterate each item in unsorted array
+        for j in range(i + 1, len(A)):
             if A[j] < A[tmp]:
-                tmp = j
+                tmp = j # found a smaller value in unsorted array
+        # swap two values
         mn_val = A[tmp]
         A[tmp] = A[i]
         A[i] = mn_val
+
+    # finished sorting
     return A
 
 """
 InsertionSort
 """
 def InsertionSort(A):
-    len_a = len(A)
-    for k in range(len_a):
-        tmp = A[k]
+    # k indicates the length of sorted array
+    for k in range(len(A)):
+        tmp = A[k] # the item to be inserted into the sorted array
+
+        # iterate the sorted array, find the place where `tmp` to be inserted.
         for i in range(k - 1, -1, -1):
             if tmp < A[i]:
+                # shift current value to next, and insert value in current place.
                 A[i + 1] = A[i]
                 A[i] = tmp
             else:
@@ -48,50 +56,51 @@ def InsertionSort(A):
 """
 BubbleSort
 """
-def BubbleSort(A):
-    len_a = len(A)
-    for i in range(len_a):
-        for j in range(len_a - i - 1):
+def BubbleSort(A): # ??
+    # we have len(A) bubbles to be risen
+    for i in range(len(A)):
+        for j in range(len(A) - i - 1):
             if A[j] > A[j + 1]:
-                tmp = A[j]
-                A[j] = A[j + 1]
-                A[j + 1] = tmp
+                A[j], A[j + 1] = A[j + 1], A[j]
     return A
 
 """
 MergeSort
 """
 def MergeSort(A):
+    # base case: the length of input array is 1
     if len(A) == 1:
         return A
 
+    # split array to two subarray
     mid = len(A) // 2
     B = A[:mid]
     C = A[mid:]
 
+    # solve sub problem
     B = MergeSort(B)
     C = MergeSort(C)
 
-    rt = [0]*len(A)
-
-    p = 0
-    q = 0
-    i = 0
+    p = 0 # the index of array B
+    q = 0 # the index of array C
+    i = 0 # the index of sorted and merged array A
 
     while p <= len(B) and q <= len(C) and i < len(A):
-        if p == len(B):
+        if p == len(B): # reach the end of B
             A[i] = C[q]
             q = q + 1
-        elif q == len(C):
+        elif q == len(C): # reach the end of C
             A[i] = B[p]
             p = p + 1
-        elif B[p] > C[q]:
+        elif B[p] > C[q]: # assign the greater one to A[i]
             A[i] = C[q]
             q = q + 1
         else:
             A[i] = B[p]
             p = p + 1
         i = i + 1
+
+    # return sorted array
     return A
 
 """
@@ -100,18 +109,27 @@ QuickSort
 Sort a list A with the call QuickSort(A, 0, len(A)).
 """
 def QuickSort(A, i, j):
+    # the base case ??
     if i >= j - 1:
-        return
+        return A
 
+    # set the pivot the last value of A
     pivot = A[j - 1]
 
+    # declare index of left position
     left = i - 1
+
+    # find the partition position,
+    # making every item on the left smaller than the mid,
+    # and every item on the right greater than the mid
+    # the final partition position should be `left + 1`
     for right in range(i, j - 1):
         if A[right] <= pivot:
             left = left + 1
             A[left], A[right] = A[right], A[left]
     A[left + 1], A[j - 1] = A[j - 1], A[left +1]
 
+    # divide the array into two, and conquer each of them.
     QuickSort(A, i, left + 1)
     QuickSort(A, left + 2, j)
     return A
