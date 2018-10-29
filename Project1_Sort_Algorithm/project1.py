@@ -112,7 +112,7 @@ QuickSort
 Sort a list A with the call QuickSort(A, 0, len(A)).
 """
 def QuickSort(A, i, j):
-    # the base case ??
+    # the base case: if the length is either 1 or 0, we simply return 
     if i >= j - 1:
         return A
 
