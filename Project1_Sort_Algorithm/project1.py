@@ -19,6 +19,7 @@ import numpy
 SelectionSort
 """
 def SelectionSort(A):
+    # the input if a random array and the teturn value is a sorted array
     # i indicates the length of sorted array
     for i in range(len(A)):
         tmp = i # store the index of the minimum value in unsorted array
@@ -39,6 +40,7 @@ def SelectionSort(A):
 InsertionSort
 """
 def InsertionSort(A):
+    # the input if a random array and the teturn value is a sorted array
     # k indicates the length of sorted array
     for k in range(len(A)):
         tmp = A[k] # the item to be inserted into the sorted array
@@ -71,6 +73,7 @@ def BubbleSort(A): # ??
 MergeSort
 """
 def MergeSort(A):
+    # the input if a random array and the teturn value is a sorted array
     # base case: the length of input array is 1
     if len(A) == 1:
         return A
@@ -112,6 +115,8 @@ QuickSort
 Sort a list A with the call QuickSort(A, 0, len(A)).
 """
 def QuickSort(A, i, j):
+    # the input if a random array ,i and j, where i and j are left index and right index 
+    # the teturn value is a sorted array
     # the base case: if the length is either 1 or 0, we simply return 
     if i >= j - 1:
         return A
