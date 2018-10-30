@@ -56,15 +56,20 @@ def InsertionSort(A):
 """
 BubbleSort
 """
-def BubbleSort(A): 
+def BubbleSort(A):
     # we have len(A) bubbles to be risen
     #iterate the array in outer loop
     for i in range(len(A)):
+        is_sorted = true
         # iterate the array of the remaining element
         for j in range(len(A) - i - 1):
             #if two elements are in wrong order, simply swap them
             if A[j] > A[j + 1]:
                 A[j], A[j + 1] = A[j + 1], A[j]
+                is_sorted = false
+        # no swap happened.
+        if is_sorted:
+            break
     return A
 
 """
@@ -115,7 +120,7 @@ Sort a list A with the call QuickSort(A, 0, len(A)).
 def QuickSort(A, i, j):
     # the input if a random array ,i and j, where i and j are left index and right index 
     # the teturn value is a sorted array
-    # the base case: if the length is either 1 or 0, we simply return 
+    # the base case: if the length is either 1 or 0, we simply return
     if i >= j - 1:
         return A
 
