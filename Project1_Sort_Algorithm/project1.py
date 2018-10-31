@@ -17,6 +17,7 @@ import numpy
 
 """
 SelectionSort
+time complexity: Best/Average/Worst Case: O(n^2)
 """
 def SelectionSort(A):
     # the input if a random array and the return value is a sorted array
@@ -36,37 +37,46 @@ def SelectionSort(A):
 
 """
 InsertionSort
+time complexity:
+- Best: O(n)
+- Average: O(n^2)
 """
 def InsertionSort(A):
     # the input if a random array and the teturn value is a sorted array
     # k indicates the length of sorted array
-    for k in range(len(A)):
-        tmp = A[k] # the item to be inserted into the sorted array
-
-        # iterate the sorted array, find the place where `tmp` to be inserted.
-        for i in range(k - 1, -1, -1):
-            if tmp < A[i]:
-                # shift current value to next, and insert value in current place.
-                A[i + 1] = A[i]
-                A[i] = tmp
-            else:
-                break
+    k = 1 # assume the first one is sorted
+    while k < len(A):
+        if A[k] < A[k - 1]: # an element to be inserted
+            j = k - 1
+            tmp = A[k]
+            # iterate the sorted array,
+            # find the place where `tmp` to be inserted.
+            while j >= 0 and A[j] > tmp:
+                # shift current value to next
+                A[j + 1] = A[j]
+                j = j - 1
+            # insert value in current place.
+            A[j + 1] = tmp
+        k = k + 1
     return A
 
 """
 BubbleSort
+time complexity:
+- Best: O(n)
+- Average: O(n^2)
 """
 def BubbleSort(A):
     # we have len(A) bubbles to be risen
     #iterate the array in outer loop
     for i in range(len(A)):
-        is_sorted = true
+        is_sorted = True
         # iterate the array of the remaining element
         for j in range(len(A) - i - 1):
             #if two elements are in wrong order, simply swap them
             if A[j] > A[j + 1]:
                 A[j], A[j + 1] = A[j + 1], A[j]
-                is_sorted = false
+                is_sorted = False
         # no swap happened.
         if is_sorted:
             break
@@ -74,6 +84,7 @@ def BubbleSort(A):
 
 """
 MergeSort
+time complexity: O(nlogn)
 """
 def MergeSort(A):
     # the input if a random array and the teturn value is a sorted array
@@ -109,13 +120,16 @@ def MergeSort(A):
             p = p + 1
         i = i + 1
 
-    # return sorted array
+    # finished sorting
     return A
 
 """
 QuickSort
 
 Sort a list A with the call QuickSort(A, 0, len(A)).
+time complexity:
+- Best/Average: O(nlogn)
+- Worst: O(n^2)
 """
 def QuickSort(A, i, j):
     # the input if a random array ,i and j, where i and j are left index and right index 
