@@ -74,6 +74,8 @@ We do multiple test, and calculate the average value as the answer. In such a wa
 
 We should also apply the algorithms to arrays with different length to test the performance. We take 30, 120, 1000 as test cases, though might not big enough with the real world data.
 
+As the performance of each computer is different, it's reasonable to report the theoretical runtime. Once we calculate the expected runtime, we can compare it with the runtime we obtain to see if our algorithm is implemented correctly. Runtime for smaller values of n is not convincing. If we were running another application in the background, which will slow down the computer, we can have huge difference between the idle condition and the busy condition. 
+
 ### Best Case comparison
 
 ![unsorted_30-l350](unsorted_30/log.png)
