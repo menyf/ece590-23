@@ -47,8 +47,9 @@ Quick sort use the divide and conquer philosophy. First we need to choose one el
 
 ### Time Complexity
 
+
 | Algorithm | Best Case | Average Case | Worst Case |
-| --- | :---: | :---: | :---: | :---: |
+| --- | :---: | :---: | :---: |
 | Selection Sort | $O(n^2)$ | $O(n^2)$ | $O(n^2)$ |
 | Insertion Sort | $O(n)$ | $O(n^2)$ | $O(n^2)$ |
 | Bubble Sort | $O(n)$ | $O(n^2)$ | $O(n^2)$ |
@@ -57,14 +58,13 @@ Quick sort use the divide and conquer philosophy. First we need to choose one el
 
 ### Testing Methodology
 
-We do multiple test, and calculate the average value as the answer. In such a way, we can minimize environment-caused discrepancy.
-
-We should also apply the algorithms to arrays with different length to test the performance. We take 3, 30, 120 as test trails, though might not big enough with the real world data.
+We do multiple test, and calculate the average value as the answer. In such a way, we can minimize environment-caused discrepancy. We take 3, 30, 120 test trials, though might not big enough with the real world data.
 
 As the performance of each computer is different, it's reasonable to report the theoretical runtime. Once we calculate the expected runtime, we can compare it with the runtime we obtain to see if our algorithm is implemented correctly. Runtime for smaller values of n is not convincing. If we were running another application in the background, which will slow down the computer, we can have huge difference between the idle condition and the busy condition. 
 
 ### Best Case comparison
-![Best Case Comparison](https://i.imgur.com/EoSUw4G.png)
+
+![Best Case Comparison](https://i.imgur.com/t2GPWXX.png)
 
 
 
@@ -76,9 +76,10 @@ What's more, the reason why bubble sort usually takes more time than the other t
 
 ### Best Sorting Algorithm
 
-Here we have several algorithms: Selection Sort, Insertion Sort, Bubble Sort, Merge Sort, Quick Sort, Python Built-in Sort. We compare these algorithms with 3-trails array(the left figure), 30-trails array(the center figure) and 120-trails array(the right figure).
+Here we have several algorithms: Selection Sort, Insertion Sort, Bubble Sort, Merge Sort, Quick Sort, Python Built-in Sort. We compare these algorithms with 3-trials array(the left figure), 30-trials array(the center figure) and 120-trials array(the right figure).
 
-![Best Sorting Algorithm](https://i.imgur.com/bucOqMz.png)
+
+![Best Sorting Algorithm](https://i.imgur.com/DoBhdp1.png)
 
 
 
