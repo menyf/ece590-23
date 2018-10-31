@@ -62,6 +62,8 @@ We do multiple test, and calculate the average value as the answer. In such a wa
 
 As the performance of each computer is different, it's reasonable to report the theoretical runtime. Once we calculate the expected runtime, we can compare it with the runtime we obtain to see if our algorithm is implemented correctly. Runtime for smaller values of n is not convincing. If we were running another application in the background, which will slow down the computer, we can have huge difference between the idle condition and the busy condition. 
 
+Realistically, the error of each algorithm cannot be avoided. Actual tuntimes may be influenced by lots of other factors as we mentioned before. When we are dealing with large amounts of data, we ought to rely more on theoretical runtimes, since it's very inefficient to simulate each algorithm. However, when we are dealing with small data or data has some restriction, it's better to run each algorithm and pick the best one. 
+
 ### Best Case comparison
 
 ![Best Case Comparison](https://i.imgur.com/t2GPWXX.png)
