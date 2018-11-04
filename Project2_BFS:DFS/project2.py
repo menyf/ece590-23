@@ -96,6 +96,11 @@ class Stack:
     """
     def push(self, val):
         ##### IMPLEMENT! #####
+        if self.isFull() :
+            self.resize()
+        self.top = self.top + 1
+        self.stack[self.top] = val
+        self.numElems = self.numElems + 1
         return
 
     """
@@ -103,7 +108,14 @@ class Stack:
     """
     def pop(self):
         ##### IMPLEMENT! #####
-        return None
+        if self.isEmpty():
+            raise Exception('Popping from an empty stack')
+            return None
+        temp = self.stack[self.top]
+        self.top = None
+        self.numElems = self.numElems - 1
+        self.top = self.top - 1
+        return temp
 
 ################################################################################
 
@@ -181,6 +193,11 @@ class Queue:
     """
     def push(self, val):
         ##### IMPLEMENT! #####
+        if self.isFull():
+            self.resize()
+        self.queue[self.rear] = val
+        self.rear = self.rear + 1
+        self.numElems + self.numElems + 1
         return
 
     """
@@ -188,7 +205,15 @@ class Queue:
     """
     def pop(self):
         ##### IMPLEMENT! #####
-        return None
+        if self.isEmpty():
+            raise Exception('Popping from an empty stack')
+            return None
+
+        temp = self.queue[self.front]
+        self.queue[self.front] = None
+        self.front = self.front + 1
+        self.numElems = self.numElems - 1
+        return temp
 
 ################################################################################
 
