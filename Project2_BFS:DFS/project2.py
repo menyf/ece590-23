@@ -14,8 +14,6 @@ import math
 ################################################################################
 
 def dfs(maze):
-    for v in maze.adjList:
-        v.visited = False
 
     st = Stack()
     st.push(maze.start)
@@ -30,27 +28,27 @@ def dfs(maze):
         # Mark as visited
         curr.visited = True
 
-        # Found exit
+            # Found exit
         if curr.isEqual(maze.exit):
             break
 
         # Push all neighbors onto the stack
         for neigh in curr.neigh:
             st.push(neigh)
-            neigh.prev = curr
+            if neigh.visited == False:
+                neigh.prev = curr
+
 
     path = [None for x in maze.adjList]
     curr = maze.exit
     ind = 0
-    print("start at: ", maze.start.rank)
-    print("end at: ", maze.exit.rank)
 
     while curr != None:
         path[ind] = curr.rank
-        print(path[ind])
         ind = ind + 1
         curr = curr.prev
-    maze.path = [path[i] for i in range((len(path) - 1), -1, -1)]
+
+    maze.path = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None ]
     return maze.path
 
 def bfs(maze):
@@ -74,7 +72,7 @@ def bdfs(maze, alg):
 
     ##### Your implementation goes here. #####
 
-    return dfs(maze)
+    return alg == bfs(maze) if alg == 'BFS' else  dfs(maze)
     ##### Your implementation goes here. #####
 
 ################################################################################
