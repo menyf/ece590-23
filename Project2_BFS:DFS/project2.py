@@ -13,6 +13,50 @@ import math
 
 ################################################################################
 
+def dfs(maze):
+    for v in maze.adjList:
+        v.visited = False
+
+    st = Stack()
+    st.push(maze.start)
+    while not st.isEmpty():
+        # Get the current room
+        curr = st.pop()
+
+        # If already visited, move on
+        if curr.visited == True:
+            continue
+
+        # Mark as visited
+        curr.visited = True
+
+        # Found exit
+        if curr.isEqual(maze.exit):
+            break
+
+        # Push all neighbors onto the stack
+        for neigh in curr.neigh:
+            st.push(neigh)
+            neigh.prev = curr
+
+    path = [None for x in maze.adjList]
+    curr = maze.exit
+    ind = 0
+    print("start at: ", maze.start.rank)
+    print("end at: ", maze.exit.rank)
+
+    while curr != None:
+        path[ind] = curr.rank
+        print(path[ind])
+        ind = ind + 1
+        curr = curr.prev
+    maze.path = [path[i] for i in range((len(path) - 1), -1, -1)]
+    return maze.path
+
+def bfs(maze):
+
+    return []
+
 """
 BFS/DFS function
 
@@ -29,7 +73,8 @@ def bdfs(maze, alg):
         raise Exception('Incorrect alg! Need BFS or DFS!')
 
     ##### Your implementation goes here. #####
-    return []
+
+    return dfs(maze)
     ##### Your implementation goes here. #####
 
 ################################################################################
@@ -96,7 +141,7 @@ class Stack:
     """
     def push(self, val):
         ##### IMPLEMENT! #####
-        if self.isFull() :
+        if self.isFull():
             self.resize()
         self.top = self.top + 1
         self.stack[self.top] = val
@@ -112,7 +157,7 @@ class Stack:
             raise Exception('Popping from an empty stack')
             return None
         temp = self.stack[self.top]
-        self.top = None
+        self.stack[self.top] = None
         self.numElems = self.numElems - 1
         self.top = self.top - 1
         return temp
