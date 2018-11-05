@@ -14,7 +14,6 @@ import math
 ################################################################################
 
 def dfs(maze):
-
     st = Stack()
     st.push(maze.start)
     while not st.isEmpty():
@@ -53,7 +52,38 @@ def dfs(maze):
 
 def bfs(maze):
 
-    return []
+    queue = Queue()
+    # Push the start vertex into the queue and set dist = 0
+    queue.push(maze.start)
+    maze.start.visited = True
+
+    while not queue.isEmpty():
+        # Get the current room
+        curr = queue.pop()
+        # Found exit
+        if curr.isEqual(maze.exit):
+            break
+
+        # Push all neighbors onto the stack
+        for neigh in curr.neigh:
+            if neigh.visited == False:
+                neigh.visited = True
+                neigh.prev = curr
+                queue.push(neigh)
+
+
+    path = [None for x in maze.adjList]
+    curr = maze.exit
+    ind = 0
+
+    while curr != None:
+        path[ind] = curr.rank
+        ind = ind + 1
+        curr = curr.prev
+
+    maze.path = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None ]
+    return maze.path
+
 
 """
 BFS/DFS function
@@ -71,8 +101,9 @@ def bdfs(maze, alg):
         raise Exception('Incorrect alg! Need BFS or DFS!')
 
     ##### Your implementation goes here. #####
-
-    return alg == bfs(maze) if alg == 'BFS' else  dfs(maze)
+    if alg == 'BFS':
+        return bfs(maze)
+    else dfs(maze)
     ##### Your implementation goes here. #####
 
 ################################################################################
@@ -238,9 +269,10 @@ class Queue:
         ##### IMPLEMENT! #####
         if self.isFull():
             self.resize()
+
         self.queue[self.rear] = val
-        self.rear = self.rear + 1
-        self.numElems + self.numElems + 1
+        self.rear = (self.rear + 1) % len(self.queue)
+        self.numElems = self.numElems + 1
         return
 
     """
@@ -249,12 +281,12 @@ class Queue:
     def pop(self):
         ##### IMPLEMENT! #####
         if self.isEmpty():
-            raise Exception('Popping from an empty stack')
+            raise Exception('Popping from an empty queue')
             return None
 
         temp = self.queue[self.front]
         self.queue[self.front] = None
-        self.front = self.front + 1
+        self.front = (self.front + 1) % len(self.queue)
         self.numElems = self.numElems - 1
         return temp
 
@@ -267,7 +299,7 @@ class Vertex:
 
     """
     Class attributes:
-    
+
     rank    # The rank of this node.
     neigh   # The list of neighbors.
     dist    # The distance from start.
