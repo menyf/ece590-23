@@ -48,6 +48,7 @@ def dfs(maze):
         curr = curr.prev
 
     maze.path = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None ]
+    print("dfs: ", maze.path)
     return maze.path
 
 def bfs(maze):
@@ -82,6 +83,7 @@ def bfs(maze):
         curr = curr.prev
 
     maze.path = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None ]
+    print("bfs: ", maze.path)
     return maze.path
 
 
@@ -101,9 +103,7 @@ def bdfs(maze, alg):
         raise Exception('Incorrect alg! Need BFS or DFS!')
 
     ##### Your implementation goes here. #####
-    if alg == 'BFS':
-        return bfs(maze)
-    else dfs(maze)
+    return bfs(maze) if alg == 'BFS' else dfs(maze)
     ##### Your implementation goes here. #####
 
 ################################################################################
