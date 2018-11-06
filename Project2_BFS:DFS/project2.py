@@ -14,6 +14,8 @@ import math
 ################################################################################
 
 def dfs(maze):
+    for v in maze.adjList:
+        v.visited = False
     st = Stack()
     st.push(maze.start)
     while not st.isEmpty():
@@ -48,10 +50,11 @@ def dfs(maze):
         curr = curr.prev
 
     maze.path = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None ]
-    print("dfs: ", maze.path)
     return maze.path
 
 def bfs(maze):
+    for v in maze.adjList:
+        v.visited = False
 
     queue = Queue()
     # Push the start vertex into the queue and set dist = 0
@@ -82,8 +85,8 @@ def bfs(maze):
         ind = ind + 1
         curr = curr.prev
 
-    maze.path = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None ]
-    print("bfs: ", maze.path)
+
+    maze.path  = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None]
     return maze.path
 
 
@@ -103,7 +106,7 @@ def bdfs(maze, alg):
         raise Exception('Incorrect alg! Need BFS or DFS!')
 
     ##### Your implementation goes here. #####
-    return bfs(maze) if alg == 'BFS' else dfs(maze)
+    return bfs(maze) if alg=='BFS' else dfs(maze)
     ##### Your implementation goes here. #####
 
 ################################################################################
