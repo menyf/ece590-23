@@ -18,3 +18,14 @@ Usage:
 >>> import project1
 >>> project1.testingSuite('SelectionSort')
 ```
+
+## Project 2 DFS/BFS
+
+Inplemented BFS and DFS
+
+Usage:
+
+```Shell
+>>> import project2
+>>> project2.testMazes()
+```
