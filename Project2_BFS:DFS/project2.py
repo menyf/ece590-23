@@ -3,8 +3,8 @@ Math 590
 Project 2
 Fall 2018
 
-Partner 1: Yuqiao Liang
-Partner 2: Yifan Men
+Partner 1: Yuqiao Liang(yl543)
+Partner 2: Yifan Men(ym129)
 Date: 11/04/2018
 """
 
@@ -14,10 +14,17 @@ import math
 ################################################################################
 
 def dfs(maze):
+    # Initialization
     for v in maze.adjList:
         v.visited = False
+        v.prev = None
+
+    # Create a stack
     st = Stack()
+
+    # Add the start point to stack
     st.push(maze.start)
+
     while not st.isEmpty():
         # Get the current room
         curr = st.pop()
@@ -29,46 +36,56 @@ def dfs(maze):
         # Mark as visited
         curr.visited = True
 
-            # Found exit
+        # Found exit
         if curr.isEqual(maze.exit):
             break
 
-        # Push all neighbors onto the stack
+        # Push all unvisited neighbors onto the stack
         for neigh in curr.neigh:
             st.push(neigh)
             if neigh.visited == False:
                 neigh.prev = curr
 
 
+    # Write down the path in reversed way
     path = [None for x in maze.adjList]
     curr = maze.exit
     ind = 0
-
     while curr != None:
         path[ind] = curr.rank
         ind = ind + 1
         curr = curr.prev
 
-    maze.path = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None ]
+    # reverse path
+    maze.path = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None]
+
+    # return
     return maze.path
 
 def bfs(maze):
+    # Initialization
     for v in maze.adjList:
         v.visited = False
+        v.prev = None
 
+    # Create a queue
     queue = Queue()
+
     # Push the start vertex into the queue and set dist = 0
     queue.push(maze.start)
+
+    # Mark the start point as visited
     maze.start.visited = True
 
     while not queue.isEmpty():
         # Get the current room
         curr = queue.pop()
+
         # Found exit
         if curr.isEqual(maze.exit):
             break
 
-        # Push all neighbors onto the stack
+        # Push all unvisited neighbors onto the stack
         for neigh in curr.neigh:
             if neigh.visited == False:
                 neigh.visited = True
@@ -76,17 +93,19 @@ def bfs(maze):
                 queue.push(neigh)
 
 
+    # Write down the path in reversed way
     path = [None for x in maze.adjList]
     curr = maze.exit
     ind = 0
-
     while curr != None:
         path[ind] = curr.rank
         ind = ind + 1
         curr = curr.prev
 
-
+    # Reverse.
     maze.path  = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None]
+
+    # Return
     return maze.path
 
 
@@ -173,8 +192,11 @@ class Stack:
     """
     def push(self, val):
         ##### IMPLEMENT! #####
+        # Full stack need to be resized to store more values
         if self.isFull():
             self.resize()
+
+        # move to next position and store value
         self.top = self.top + 1
         self.stack[self.top] = val
         self.numElems = self.numElems + 1
@@ -188,6 +210,8 @@ class Stack:
         if self.isEmpty():
             raise Exception('Popping from an empty stack')
             return None
+
+        # take out the value and set to None, decrease the number and index
         temp = self.stack[self.top]
         self.stack[self.top] = None
         self.numElems = self.numElems - 1
@@ -270,11 +294,13 @@ class Queue:
     """
     def push(self, val):
         ##### IMPLEMENT! #####
+        # Full queue need to be resized to store more values
         if self.isFull():
             self.resize()
 
+        # move to next position and store value
         self.queue[self.rear] = val
-        self.rear = (self.rear + 1) % len(self.queue)
+        self.rear = (self.rear + 1) % len(self.queue) # move to useless position
         self.numElems = self.numElems + 1
         return
 
@@ -287,9 +313,12 @@ class Queue:
             raise Exception('Popping from an empty queue')
             return None
 
+        # take out the value and set to None,
+        # decrease the number,
+        # move front to next position
         temp = self.queue[self.front]
         self.queue[self.front] = None
-        self.front = (self.front + 1) % len(self.queue)
+        self.front = (self.front + 1) % len(self.queue) # move to next position
         self.numElems = self.numElems - 1
         return temp
 
