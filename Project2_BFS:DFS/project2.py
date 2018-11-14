@@ -12,7 +12,9 @@ Date: 11/04/2018
 import math
 
 ################################################################################
-
+# Input: A maze object
+# Output: A path from start vertex to target vertex, which is a list
+# Usage: Call dfs(maze), you will get a path
 def dfs(maze):
     # Initialization
     for v in maze.adjList:
@@ -62,6 +64,9 @@ def dfs(maze):
     # return
     return maze.path
 
+# Input: A maze object
+# Output: A path from start vertex to target vertex, which is a list
+# Usage: Call dfs(maze), you will get a path
 def bfs(maze):
     # Initialization
     for v in maze.adjList:
