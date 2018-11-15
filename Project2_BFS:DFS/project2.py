@@ -12,11 +12,22 @@ Date: 11/04/2018
 import math
 
 ################################################################################
-# Input: A maze object
-# Output: A path from start vertex to target vertex, which is a list
-# Usage: Call dfs(maze), you will get a path
+"""
+DFS function
+
+INPUTS
+A maze object
+maze: A Maze object representing the maze.
+
+USAGE
+Call dfs(maze), you will get a path
+
+OUTPUS
+path: A path from start vertex to target vertex, which is a list,
+      which shortest path from maze.start to maze.exit.
+"""
 def dfs(maze):
-    # Initialization: set the visited of each vertices to be False 
+    # Initialization: set the visited of each vertices to be False
     # and their prev to None
     for v in maze.adjList:
         v.visited = False
@@ -66,11 +77,23 @@ def dfs(maze):
     # return the path to the exit in the correct order
     return maze.path
 
-# Input: A maze object
-# Output: A path from start vertex to target vertex, which is a list
-# Usage: Call dfs(maze), you will get a path
+
+"""
+BFS function
+
+INPUTS
+A maze object
+maze: A Maze object representing the maze.
+
+USAGE
+Call bfs(maze), you will get a path
+
+OUTPUS
+path: A path from start vertex to target vertex, which is a list,
+      which shortest path from maze.start to maze.exit.
+"""
 def bfs(maze):
-    # Initialization: set the visited of each vertices to be False 
+    # Initialization: set the visited of each vertices to be False
     # and their prev to None
     for v in maze.adjList:
         v.visited = False
