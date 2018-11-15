@@ -16,7 +16,8 @@ import math
 # Output: A path from start vertex to target vertex, which is a list
 # Usage: Call dfs(maze), you will get a path
 def dfs(maze):
-    # Initialization
+    # Initialization: set the visited of each vertices to be False 
+    # and their prev to None
     for v in maze.adjList:
         v.visited = False
         v.prev = None
@@ -42,7 +43,8 @@ def dfs(maze):
         if curr.isEqual(maze.exit):
             break
 
-        # Push all unvisited neighbors onto the stack
+        # Iterate all the neigh of curr,
+        # and then push all unvisited neighbors onto the stack
         for neigh in curr.neigh:
             st.push(neigh)
             if neigh.visited == False:
@@ -61,14 +63,15 @@ def dfs(maze):
     # reverse path
     maze.path = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None]
 
-    # return
+    # return the path to the exit in the correct order
     return maze.path
 
 # Input: A maze object
 # Output: A path from start vertex to target vertex, which is a list
 # Usage: Call dfs(maze), you will get a path
 def bfs(maze):
-    # Initialization
+    # Initialization: set the visited of each vertices to be False 
+    # and their prev to None
     for v in maze.adjList:
         v.visited = False
         v.prev = None
@@ -107,10 +110,10 @@ def bfs(maze):
         ind = ind + 1
         curr = curr.prev
 
-    # Reverse.
+    # Reverse the path to the exit
     maze.path  = [path[i] for i in range((len(path) - 1), -1, -1) if path[i] != None]
 
-    # Return
+    # Return the path in the correct order
     return maze.path
 
 
@@ -130,6 +133,8 @@ def bdfs(maze, alg):
         raise Exception('Incorrect alg! Need BFS or DFS!')
 
     ##### Your implementation goes here. #####
+    # If alg is BFS, we use BFS to find the path, otherwise
+    # we use DFS to find the path;
     return bfs(maze) if alg=='BFS' else dfs(maze)
     ##### Your implementation goes here. #####
 
@@ -198,10 +203,13 @@ class Stack:
     def push(self, val):
         ##### IMPLEMENT! #####
         # Full stack need to be resized to store more values
+        # we double the size of current stack and then copy the content
+        # to the new stack
         if self.isFull():
             self.resize()
 
         # move to next position and store value
+        # increment the top index and numElems
         self.top = self.top + 1
         self.stack[self.top] = val
         self.numElems = self.numElems + 1
@@ -216,7 +224,7 @@ class Stack:
             raise Exception('Popping from an empty stack')
             return None
 
-        # take out the value and set to None, decrease the number and index
+        # take out the value and set to None, decrease the numElems and top index
         temp = self.stack[self.top]
         self.stack[self.top] = None
         self.numElems = self.numElems - 1
@@ -314,6 +322,7 @@ class Queue:
     """
     def pop(self):
         ##### IMPLEMENT! #####
+        # if pop from the empty queue, we will raise the exception
         if self.isEmpty():
             raise Exception('Popping from an empty queue')
             return None
@@ -323,7 +332,7 @@ class Queue:
         # move front to next position
         temp = self.queue[self.front]
         self.queue[self.front] = None
-        self.front = (self.front + 1) % len(self.queue) # move to next position
+        self.front = (self.front + 1) % len(self.queue) # move to next position in the front
         self.numElems = self.numElems - 1
         return temp
 
