@@ -3,9 +3,9 @@ Math 590
 Project 3
 Fall 2018
 
-Partner 1:
-Partner 2:
-Date:
+Partner 1: Yuqiao Liang(yl543)
+Partner 2: Yifan Men(ym129)
+Date: 11/24/2018
 """
 
 # Import math.
@@ -14,22 +14,83 @@ import math
 ################################################################################
 
 """
-detectArbitrage
+detectArbitrage function will calculate the shortest path with Bellman Ford
+Algorithm, judge wether there is a arbitrage. If there is an arbitrage, it
+would return such path, otherwise an empty list.
+
+INPUTS
+currencies: the "graph" information of currencies
+tol: tolerance to float
+
+OUTPUTS
+circle: the path that consist of an arbitrage
 """
 def detectArbitrage(currencies, tol=1e-15):
     ##### Your implementation goes here. #####
-    return []
+    # Set initial dist  and prev
+    for vertex in currencies.adjList:
+        vertex.dist = math.inf
+        vertex.prev = None
+    # Set initial dist to 0;
+    currencies.adjList[0].dist = 0
+
+    # Bellman Ford Algorithm
+    # Iterate |V| − 1 times
+    for iter in range(0, len(currencies.adjList) - 1):
+        # Look at each vertex.
+        for u in currencies.adjList:
+            # Check each neighbor of u.
+            # Update predictions and previous vertex.
+            for v in u.neigh:
+                if v.dist > u.dist + currencies.adjMat[u.rank][v.rank] + tol:
+                    v.dist = u.dist + currencies.adjMat[u.rank][v.rank]
+                    v.prev = u
+
+    # detect negative circle
+    circle_flag = None;
+    for u in currencies.adjList:
+        # Check each neighbor of u.
+        # Update predictions and previous vertex.
+        for v in u.neigh:
+            if v.dist > u.dist + currencies.adjMat[u.rank][v.rank] + tol:
+                v.dist = u.dist + currencies.adjMat[u.rank][v.rank]
+                v.prev = u
+                circle_flag = u
+
+    # Backtracking the record circle in a reversed way
+    circle = []
+    if circle_flag:
+        circle.append(circle_flag.rank)
+        u = circle_flag.prev
+        while not u.isEqual(circle_flag):
+            circle.append(u.rank)
+            u = u.prev
+        circle.append(circle_flag.rank)
+
+    # Reverse the reversed path
+    circle  = [circle[i] for i in range((len(circle) - 1), -1, -1) ]
+
+    # Return such circle.
+    return circle
     ##### Your implementation goes here. #####
 
 ################################################################################
 
 """
-rates2mat
+rates2mat function will calculate negative logarithmatic value of currency rates, since
+we need the the values to be added for Bellman Ford algorithm.
+
+INPUTS
+rates: A 2D list consist of currency rate from one currency to another.
+
+OUTPUTS
+logged rates: A 2D list consist of values that is a negative logarithmatic value to the
+original ones.
 """
 def rates2mat(rates):
     ##### Your implementation goes here. #####
-    # Currently this only returns a copy of the rates matrix.
-    return [[R for R in row] for row in rates]
+    # Currently this only returns a copy of the rates matrix.c
+    return [[-math.log(R) for R in row] for row in rates]
     ##### Your implementation goes here. #####
 
 ################################################################################
@@ -41,7 +102,7 @@ class Vertex:
 
     """
     Class attributes:
-    
+
     rank    # The rank of this node.
     neigh   # The list of neighbors.
     dist    # The distance from start.
@@ -74,7 +135,7 @@ class Vertex:
         return self.rank == vertex.rank
 
 ################################################################################
-    
+
 """
 Currencies Class
 """
@@ -82,7 +143,7 @@ class Currencies:
 
     """
     Class attributes:
-    
+
     rates   # A 2D list of the different exchange rates.
     currs   # A list of the currency names as strings.
     adjList # The adjacency list for the currencies.
@@ -224,7 +285,7 @@ def getRates(exchangeNum):
         rates[2][0] = 1/rates[0][2]
         rates[3][1] = 1/rates[1][3]
         currs = ['Dollar','Euro','Yen','Lira']
-        
+
     elif exchangeNum == 1:
         # Some actual currency rates as of 11/12/18.
         # Euro rates to 13 others.
@@ -243,14 +304,14 @@ def getRates(exchangeNum):
                 # Use this to find all other rates and their inverses.
                 rates[r][c] = rates[r][0]*rates[0][c]
                 rates[c][r] = 1/rates[r][c]
-                
+
     elif exchangeNum == 2:
         # Get the real rates.
         rates, currs = getRates(1)
         # Underprice the dollar (3) with repect to the pound (1).
         rates[3][1] -= 0.01
         rates[1][3] = 1/rates[3][1]
-                
+
     elif exchangeNum == 3:
         # Get the rates with undervalued USD.
         rates, currs = getRates(2)
@@ -260,10 +321,10 @@ def getRates(exchangeNum):
         # Overprice the riyal (9) with repect to the HK dollar (6).
         rates[9][6] += 0.07
         rates[6][9] = 1/rates[9][6]
-        
+
     else:
         raise Exception('Input exchangeNum not valid!')
-    
+
     return rates, currs
 
 ################################################################################
@@ -323,5 +384,3 @@ def testRates():
     print()
     print('Passed %d/4 Tests' % passed)
     return
-
-################################################################################
