@@ -27,7 +27,10 @@ circle: the path that consist of an arbitrage
 """
 def detectArbitrage(currencies, tol=1e-15):
     ##### Your implementation goes here. #####
-
+    # Set initial dist  and prev
+    for vertex in currencies.adjList:
+        vertex.dist = math.inf
+        vertex.prev = None
 
     # Set initial dist to 0;
     currencies.adjList[0].dist = 0
@@ -54,6 +57,7 @@ def detectArbitrage(currencies, tol=1e-15):
         for v in u.neigh:
             if v.dist > u.dist + currencies.adjMat[u.rank][v.rank] + tol:
                 circle_flag = u
+                break
 
     # Backtracking the record circle in a reversed way
     circle = []
