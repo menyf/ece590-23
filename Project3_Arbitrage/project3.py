@@ -27,10 +27,8 @@ circle: the path that consist of an arbitrage
 """
 def detectArbitrage(currencies, tol=1e-15):
     ##### Your implementation goes here. #####
-    # Set initial dist  and prev
-    for vertex in currencies.adjList:
-        vertex.dist = math.inf
-        vertex.prev = None
+
+
     # Set initial dist to 0;
     currencies.adjList[0].dist = 0
 
@@ -40,21 +38,21 @@ def detectArbitrage(currencies, tol=1e-15):
         # Look at each vertex.
         for u in currencies.adjList:
             # Check each neighbor of u.
-            # Update predictions and previous vertex.
+            # Update predictions and previous vertex. If the new dist is smaller
+            # than previous dist, update the dist to the new dist.
             for v in u.neigh:
                 if v.dist > u.dist + currencies.adjMat[u.rank][v.rank] + tol:
                     v.dist = u.dist + currencies.adjMat[u.rank][v.rank]
                     v.prev = u
 
-    # detect negative circle
+    # detect negative circle, run the iteration one more time. If any value changes,
+    # negative cycle exisits.
     circle_flag = None;
     for u in currencies.adjList:
         # Check each neighbor of u.
         # Update predictions and previous vertex.
         for v in u.neigh:
             if v.dist > u.dist + currencies.adjMat[u.rank][v.rank] + tol:
-                v.dist = u.dist + currencies.adjMat[u.rank][v.rank]
-                v.prev = u
                 circle_flag = u
 
     # Backtracking the record circle in a reversed way
@@ -89,7 +87,7 @@ original ones.
 """
 def rates2mat(rates):
     ##### Your implementation goes here. #####
-    # Currently this only returns a copy of the rates matrix.c
+    # The weight in graph is the negative log of the corresponding currency.
     return [[-math.log(R) for R in row] for row in rates]
     ##### Your implementation goes here. #####
 
