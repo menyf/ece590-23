@@ -29,7 +29,20 @@ Note: Use the isEqual method of the Vertex class when comparing vertices.
 """
 def kruskal(adjList, edgeList):
     ##### Your implementation goes here. #####
+    # Initialize all singleton sets for each vertex
+    for v in adjList:
+        makeset(v)
+
+    # Initialize the empty MST
     X = []
+
+    # Loop through the edges in increasing order.
+    for e in edgeList:
+        # If the min edge crosses a cut, add it to our MSTalg
+        u, v = e.vertices
+        if not find(u).isEqual(find(v)):
+            X.append(e)
+            union(u, v)
     return X
 
 ################################################################################
@@ -58,6 +71,9 @@ makeset: this function will create a singleton set with root v.
 """
 def makeset(v):
     ##### Your implementation goes here. #####
+    v.pi = v
+    v.height = 0
+    v.visited = False
     return
 
 """
@@ -67,7 +83,9 @@ Note: Use the isEqual method of the Vertex class when comparing vertices.
 """
 def find(v):
     ##### Your implementation goes here. #####
-    return v.pi
+    while v != v.pi:
+        v = v.pi
+    return v
 
 """
 union: this function will union the sets of vertices v and u.
@@ -75,6 +93,25 @@ Note: Use the isEqual method of the Vertex class when comparing vertices.
 """
 def union(u,v):
     ##### Your implementation goes here. #####
+    # First, find the root of the tree for u
+    ru = find(u)
+
+    # Second, find the root of the tree for v
+    rv = find(v)
+
+    # If the sets are already the sam, return.
+    if ru.isEqual(rv):
+        return
+
+    # Make shorter set point to taller set
+    if ru.height > rv.height:
+        rv.pi = ru
+    elif ru.height < rv.height:
+        ru.pi = rv
+    else:
+        # Same height, break tie
+        ru.pi = rv
+        rv.height += 1
     return
 
 ################################################################################
@@ -86,7 +123,7 @@ class Vertex:
 
     """
     Class attributes:
-    
+
     rank    # The rank of this node.
     neigh   # The list of neighbors IN THE ORIGINAL GRAPH.
     mstN    # The list of neighbors IN THE MST.
@@ -127,7 +164,7 @@ class Vertex:
     """
     def isEqual(self,vertex):
         return self.rank == vertex.rank
-    
+
     """
     Overloaded comparison operators for priority queue.
     Sorted by cost.
@@ -144,14 +181,14 @@ class Edge:
 
     """
     Class attributes:
-    
+
     vertices # The list of vertices for this edge.
     weight   # The weight of this edge.
     """
 
     """
     __init__ function to initialize the edge.
-    
+
     INPUTS:
     vertex1 and vertex2: the vertices for the edge
     weight: the weight of the edge
@@ -160,7 +197,7 @@ class Edge:
         self.vertices = [vertex1]+[vertex2]
         self.weight = weight
         return
-    
+
     """
     __repr__ function to print an edge.
     """
@@ -200,14 +237,14 @@ class MinQueue:
 
     """
     __init__ function to initialize the edge.
-    
+
     INPUTS:
     array: the input array to be inserted into the queue.
     """
     def __init__(self, array=[]):
         self.array = array.copy()
         return
-    
+
     """
     __repr__ function to print an edge.
     """
@@ -236,7 +273,7 @@ class MinQueue:
         # Check if empty.
         if len(self.array) == 0:
             raise Exception('Cannot delete min from an empty queue.')
-        
+
         # Start by considering the first element.
         minVal = self.array[0]
         minInd = 0
@@ -273,7 +310,7 @@ class Map:
 
     """
     __init__ function to initialize the map.
-    
+
     INPUTS:
     mapNum: The number of the map to use.
     """
@@ -316,7 +353,7 @@ class Map:
         # Empty tour initially.
         self.tour = []
         return
-    
+
     """
     __repr__ function to print a map.
     """
