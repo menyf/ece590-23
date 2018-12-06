@@ -150,6 +150,12 @@ These functions will operate directly on the input vertex objects.
 
 """
 makeset: this function will create a singleton set with root v.
+
+INPUTS
+v: the verter you want to make set
+
+OUTPUTS
+None
 """
 def makeset(v):
     ##### Your implementation goes here. #####
@@ -161,6 +167,13 @@ def makeset(v):
 find: this function will return the root of the set that contains v.
 Note: You should use path compression here.
 Note: Use the isEqual method of the Vertex class when comparing vertices.
+
+INPUTS
+v: The vertex you need to find which tree it is in
+
+OUTPUTS
+The root vertex of tree where v belongs to
+
 """
 def find(v):
     ##### Your implementation goes here. #####
@@ -175,6 +188,14 @@ def find(v):
 """
 union: this function will union the sets of vertices v and u.
 Note: Use the isEqual method of the Vertex class when comparing vertices.
+
+INPUTS
+u: a vertex to be union
+v: another vertex to be union
+
+OUTPUTS
+None
+
 """
 def union(u,v):
     ##### Your implementation goes here. #####
