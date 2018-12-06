@@ -3,9 +3,9 @@ Math 590
 Project 4
 Fall 2018
 
-Partner 1:
-Partner 2:
-Date:
+Partner 1: Yuqiao Liang(yl543)
+Partner 2: Yifan Men(ym129)
+Date: 12/06/2018
 """
 
 # Import math.
@@ -18,7 +18,35 @@ Prim's Algorithm
 """
 def prim(adjList, adjMat):
     ##### Your implementation goes here. #####
-    return
+    # Initialize all costs to infinity and prev to null
+    for v in adjList:
+        v.cost = math.inf
+        v.prev = None
+        v.visited = False
+
+
+    # Pick an arbitrary start vertex and set cost to 0.
+    start = adjList[0]
+    start.cost = 0
+    start.visited = True
+
+    # Make the priority queue using cost for sorting.
+    Q = MinQueue(adjList)
+
+    while not Q.isEmpty():
+        # Get the next unvisited vertex and visit it.
+        v = Q.deleteMin()
+        v.visited = True
+
+        # For each edge out of v.
+        for n in v.neigh:
+            if not n.visited:
+            # If the edge leads out, update.
+                if n.cost > adjMat[v.rank][n.rank]:
+                   n.cost = adjMat[v.rank][n.rank]
+                   n.prev = v
+
+
 
 ################################################################################
 
@@ -52,7 +80,36 @@ TSP
 """
 def tsp(adjList, start):
     ##### Your implementation goes here. #####
+
+    # Initialize all vertices to unvisited
+    for v in adjList:
+        v.visited = False
+
+    # Initialize tour as return value to an empty list
     tour = []
+
+    # A stack to track the next unvisited vertex.
+    stack = [start]
+
+    # A stack is not empty
+    while len(stack) != 0:
+        curr = stack.pop()
+
+        # skip visited vertex
+        if curr.visited:
+            continue
+
+        # Mark current vertex to True and append it to tour
+        curr.visited = True
+        tour.append(curr.rank)
+
+        # Find all neighboring vertex in MST
+        for v in curr.mstN:
+            stack.append(v)
+
+    # Append start to the tour as the last vertex
+    tour.append(start.rank)
+    
     return tour
 
 ################################################################################
@@ -73,7 +130,6 @@ def makeset(v):
     ##### Your implementation goes here. #####
     v.pi = v
     v.height = 0
-    v.visited = False
     return
 
 """
@@ -83,9 +139,13 @@ Note: Use the isEqual method of the Vertex class when comparing vertices.
 """
 def find(v):
     ##### Your implementation goes here. #####
-    while v != v.pi:
-        v = v.pi
-    return v
+    # If we are not at the rootself.
+    if v != v.pi:
+        # Set our parent to be the root
+        # which is also the root of our parent!
+        v.pi = find(v.pi)
+    # Return the root, which is now our parent
+    return v.pi
 
 """
 union: this function will union the sets of vertices v and u.
@@ -366,7 +426,7 @@ class Map:
             s += repr(e) +'\n'
             w += e.weight
         s += '\nMST Weight:\n%f\n' % w
-        
+
 
         # Now the tour.
         s += '\nTSP Approx. Tour:\n'
@@ -442,7 +502,7 @@ class Map:
                         e = Edge(v,neighbor,self.adjMat[rank][neighbor.rank])
                         self.mst.append(e)
             return
-        
+
         elif self.MSTalg == 'Kruskal':
             # Call Kruskal's on the adjList and edgeList.
             # This will return the mst edges.
@@ -521,7 +581,7 @@ adjMat:   the adjacency matrix.
 cityList: the list of the cities.
 """
 def getMap(mapNum=0):
-    
+
     if mapNum == 0:
         cityList = ['a','b','c','d']
         adjMat = [[0,2,8,5],\
@@ -531,7 +591,7 @@ def getMap(mapNum=0):
         optTour = '\nOptimal Tour:' + \
                   '\na\nb\nc\nd\na\n\nWeight of Optimal Tour:\n20'
         return adjMat, cityList, optTour
-        
+
     elif mapNum == 1:
         cityList = ['a','b','c','d']
         adjMat = [[0,2,2,3],\
@@ -542,7 +602,7 @@ def getMap(mapNum=0):
                   '\na\nb\nd\nc\na\n\nWeight of Optimal Tour:\n8'
         return adjMat, cityList, optTour
 
-        
+
     elif mapNum == 2:
         cityList = ['NYC','Urbandale','Chicago','Durham','LA','Seattle',\
                     'Washington DC']
@@ -551,7 +611,7 @@ def getMap(mapNum=0):
         optTour = '\nOptimal Tour:\nNYC\nChicago\nUrbandale\nSeattle\nLA' + \
                   '\nDurham\nWashington DC\nNYC\n\nWeight of Optimal ' + \
                   'Tour:\n9796'
-        
+
     elif mapNum == 3:
         cityList = ['London','Paris','Madrid','Rome','Berlin','Istanbul',\
                     'Moscow','Athens','Copenhagen']
@@ -560,7 +620,7 @@ def getMap(mapNum=0):
         optTour = '\nOptimal Tour:\nLondon\nBerlin\nCopenhagen\nMoscow\n' + \
                   'Istanbul\nAthens\nRome\nMadrid\nParis\nLondon\n\nWeight ' + \
                   'of Optimal Tour:\n8978'
-        
+
     elif mapNum == 4:
         cityList = ['NYC','Urbandale','Chicago','Durham','LA','Seattle',\
                     'Washington DC','Houston','Phoenix','Denver',\
@@ -570,7 +630,7 @@ def getMap(mapNum=0):
         longs = [74.01,93.71,87.63,78.90,118.24,122.33,77.04,\
                  95.37,112.07,104.99,122.42,157.86,71.06,81.69]
         optTour = '\nOptimal Tour: ?'
-        
+
     elif mapNum == 5:
         cityList = ['London','Paris','Madrid','Rome','Berlin','Istanbul',\
                     'Moscow','Athens','Copenhagen','Dublin','Warsaw',\
@@ -583,7 +643,7 @@ def getMap(mapNum=0):
         optTour = '\nOptimal Tour:\nLondon\nParis\nMadrid\nRome\nAthens\n' + \
                   'Istanbul\nKiev\nMoscow\nWarsaw\nBerlin\nCopenhagen\n' + \
                   'Dublin\nLondon\n\nWeight of Optimal Tour:\n9911'
-        
+
     elif mapNum == 6:
         cityList = ['London','Paris','Madrid','Rome','Berlin','Istanbul',\
                     'Moscow','Athens','Copenhagen','Dublin','Warsaw',\
@@ -637,7 +697,7 @@ def getMap(mapNum=0):
         longs.insert(0,-10)
         cityList.insert(0,str(lab))
         optTour = '\nOptimal Tour: 40030.173592'
-        
+
     else:
         raise Exception('Not a valid map number.')
 
@@ -649,7 +709,7 @@ def getMap(mapNum=0):
             adjMat[r][c] = getDist(lats[r],longs[r],lats[c],longs[c])
             adjMat[c][r] = adjMat[r][c]
         adjMat[r][r] = 0
-    
+
     return adjMat, cityList, optTour
 
 ################################################################################
@@ -715,7 +775,7 @@ def testMaps(alg):
     Tflag = False
     t = 9
     tol = 1e-6
-    
+
     # Test maps.
     MSTws = [12,6,5999.977279,6909.105275,11810.893206,7724.194671,\
              8813.919553,39763.305768,39763.305768]
