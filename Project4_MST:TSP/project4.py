@@ -15,6 +15,14 @@ import math
 
 """
 Prim's Algorithm
+
+INPUTS
+adjList: all the vertices in the map
+adjMat:  adjacency matrix storing edge weight
+
+OUTPUTS
+None
+
 """
 def prim(adjList, adjMat):
     ##### Your implementation goes here. #####
@@ -54,6 +62,15 @@ def prim(adjList, adjMat):
 Kruskal's Algorithm
 Note: the edgeList is ALREADY SORTED!
 Note: Use the isEqual method of the Vertex class when comparing vertices.
+
+
+INPUTS
+adjList: all the vertices in the map
+edgeList: Sorted edges list based on weight
+
+OUTPUTS
+X : the list of edges in MST
+
 """
 def kruskal(adjList, edgeList):
     ##### Your implementation goes here. #####
@@ -77,6 +94,14 @@ def kruskal(adjList, edgeList):
 
 """
 TSP
+
+INPUTS
+adjList: all the vertices in the map
+start: Start vertex
+
+OUTPUTS
+Tour : the list of vertices resulting from TSP
+
 """
 def tsp(adjList, start):
     ##### Your implementation goes here. #####
@@ -109,7 +134,7 @@ def tsp(adjList, start):
 
     # Append start to the tour as the last vertex
     tour.append(start.rank)
-    
+
     return tour
 
 ################################################################################
